@@ -1,0 +1,2 @@
+C:\Users\Matt\Documents\Visual Studio 2010\Projects\NetHack\NetHack\obj\x86\Debug\NetHack.exe
+C:\Users\Matt\Documents\Visual Studio 2010\Projects\NetHack\NetHack\obj\x86\Debug\NetHack.pdb
