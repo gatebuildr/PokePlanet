@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<spritesheet path="Graphics\\shipAnimation">
+  <animatedsprite looping="true" name="default" duration="30" x="0" y="0">
+    <spriterow n="8" x="0" y="0" w="115" h="69">
+    </spriterow>
+  </animatedsprite>
+</spritesheet>

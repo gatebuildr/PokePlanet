@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<spritesheet path="Graphics\LinkSheet">
-  <animatedsprite looping="true" name="unarmed_down" duration="100" x="102" y="127">
-    <spriterow n="7" x="0" y="0" w="16" h="23" gap="7"></spriterow>
-  </animatedsprite>
-</spritesheet>

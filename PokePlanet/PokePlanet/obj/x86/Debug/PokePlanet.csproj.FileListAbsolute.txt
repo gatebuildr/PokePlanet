@@ -1,0 +1,15 @@
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\SDL.dll
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\SpriteXML\Airship.xml
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\SpriteXML\LinkSheet.sprites
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\PokePlanet.exe
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\PokePlanet.pdb
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\obj\x86\Debug\PokePlanet.exe
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\obj\x86\Debug\PokePlanet.pdb
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\Graphics\bgLayer1.xnb
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\Graphics\bgLayer2.xnb
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\Graphics\LinkSheet.xnb
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\sprites\CuboneMarowak.sprites
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\sprites\LinkSheet.anim
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\sprites\LinkSheet.sprites
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\Graphics\mainbackground.xnb

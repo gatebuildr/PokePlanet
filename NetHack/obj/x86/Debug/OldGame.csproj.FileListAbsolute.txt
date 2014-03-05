@@ -1,0 +1,4 @@
+C:\Users\Matt\git\PokePlanet\NetHack\obj\x86\Debug\PokePlanet.Properties.Resources.resources
+C:\Users\Matt\git\PokePlanet\NetHack\obj\x86\Debug\OldGame.csproj.GenerateResource.Cache
+C:\Users\Matt\git\PokePlanet\NetHack\obj\x86\Debug\PokePlanet.exe
+C:\Users\Matt\git\PokePlanet\NetHack\obj\x86\Debug\PokePlanet.pdb
