@@ -1,0 +1,1 @@
+C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanetContent\obj\x86\Debug\PokePlanetContent.contentprojResolveAssemblyReference.cache

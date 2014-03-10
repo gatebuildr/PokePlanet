@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace PokePlanet
 {
-    class ParallaxingBackground
+    public class ParallaxingBackground
     {
         Texture2D texture;
         Vector2[] positions;

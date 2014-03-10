@@ -25,11 +25,11 @@ namespace PokePlanet
         //input states
 
         //background
-        Texture2D _mainBackground;
-        Rectangle _rectBackground;
-        ParallaxingBackground bgLayer1;
-        ParallaxingBackground bgLayer2;
-        private const float Scale = 4f; 
+        public static Texture2D _mainBackground;
+        public static Rectangle _rectBackground;
+        public static ParallaxingBackground bgLayer1;
+        public static ParallaxingBackground bgLayer2;
+        public const float Scale = 4f; 
 
 
         public Game1()
@@ -74,23 +74,7 @@ namespace PokePlanet
 
             // TODO: use this.Content to load your game content here
 
-            //player
-            //Animation playerAnimation = new Animation();
-            SpriteSheet playerSheet = SpriteSheet.FromFile(Content, "SpriteXML\\LinkSheet.sprites");
-            SpriteSheet linkSheet = SpriteSheet.FromFile(Content, "Content/sprites/LinkSheet.sprites");
-            //playerAnimation.Initialize(playerTexture, Vector2.Zero, 115, 69, 8, 30, Color.White, scale, true);
-            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2,
-                GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            OverworldState.player.Initialize(Content, playerSheet, playerPosition);
-
-            //Texture2D cuboneTexture = Content.Load<Texture2D>("Content\\Graphics\\cuboneMarowak");
-            SpriteSheet cuboneSheet = SpriteSheet.FromFile(Content, "Content\\sprites\\CuboneMarowak.sprites");
-
-            //background
-            bgLayer1.Initialize(Content, "Graphics/bgLayer1", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -1);
-            bgLayer2.Initialize(Content, "Graphics/bgLayer2", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -2);
-            _mainBackground = Content.Load<Texture2D>("Graphics/mainbackground");
-            _rectBackground = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            SpriteManager.LoadContent(Content, GraphicsDevice);
         }
 
         /// <summary>
