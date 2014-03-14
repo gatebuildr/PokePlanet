@@ -8,6 +8,8 @@ namespace PokePlanet
 {
     public class AnimatedSprite
     {
+        public Animation AnimationReference;
+
         [XmlAttribute("loops")]
         public int Loops;
 
@@ -32,16 +34,32 @@ namespace PokePlanet
 //        int totalFrames = 0;
         int currentRow = 0;
         int rowIndex = 0;
+        private int currentIndex = 0;
         int elapsedTime = 0;
 
-        //public Texture2D Texture;
+        public Texture2D Texture;
         public Vector2 Position;
         Rectangle sourceRect = new Rectangle();
         Rectangle destinationRect = new Rectangle();
+        public Cell CurrentCell;
 
         public int FrameWidth;
         public int FrameHeight;
         float scale = 1f;
+
+        public void Initialize(Texture2D texture, Vector2 position, Animation animationReference)
+        {
+            Texture = texture;
+            AnimationReference = animationReference;
+            Position = position;
+            SpriteCoords currentSprite = SpriteManager.GetSprite("LinkSheet", "UnarmedDown");
+            CurrentCell = AnimationReference.Cells[0];
+            sourceRect = new Rectangle(currentSprite.x, currentSprite.y, currentSprite.Width, currentSprite.Height);
+            FrameWidth = sourceRect.Width;
+            FrameHeight = sourceRect.Height;
+            Duration = CurrentCell.Delay;
+            Loops = AnimationReference.Loops;
+        }
         
         public void Initialize(Texture2D Texture, Vector2 position, float scale)
         {
@@ -79,6 +97,14 @@ namespace PokePlanet
 
         private void AdvanceFrame()
         {
+            currentIndex++;
+            if (currentIndex == AnimationReference.Cells.Count)
+            {
+                currentIndex = 0;
+                if (Loops == 0)
+                    Active = false;
+            }
+            CurrentCell = AnimationReference.Cells[currentIndex];
             rowIndex++;
             if (rowIndex == Rows[currentRow].Count)
             {
@@ -97,7 +123,8 @@ namespace PokePlanet
 
         private void UpdateSourceRect()
         {
-            sourceRect = new Rectangle(X + Rows[currentRow].X + FrameWidth * rowIndex + Rows[currentRow].Gap * rowIndex,
+            sourceRect = new Rectangle();
+//            sourceRect = new Rectangle(X + Rows[currentRow].X + FrameWidth * rowIndex + Rows[currentRow].Gap * rowIndex,
                 Y + Rows[currentRow].Y, FrameWidth, FrameHeight);
         }
 

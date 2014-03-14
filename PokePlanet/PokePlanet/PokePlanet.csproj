@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Animation.cs" />
+    <Compile Include="OldAnimation.cs" />
+    <Compile Include="AnimationSet.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="OverworldState.cs" />
@@ -128,6 +130,7 @@
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
     <Content Include="Icon.ico" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="SpriteXML\Airship.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -13,4 +13,3 @@ C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\sprites
 C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\sprites\LinkSheet.anim
 C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\sprites\LinkSheet.sprites
 C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\Graphics\mainbackground.xnb
-C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanet\obj\x86\Debug\PokePlanet.csprojResolveAssemblyReference.cache

@@ -66,11 +66,12 @@
     </Content>
     <Content Include="sprites\LinkSheet.anim">
       <Name>LinkSheet</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="sprites\LinkSheet.sprites">
       <Name>LinkSheet</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
