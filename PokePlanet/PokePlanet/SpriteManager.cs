@@ -15,21 +15,16 @@ namespace PokePlanet
 
         public static void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
-//            SpriteSheet playerSheet = SpriteSheet.FromFile(content, "SpriteXML\\LinkSheet.sprites");
             LoadFromFile(content, "LinkSheet");
-            SpriteSheet playerSheet = SpriteSheetDictionary["LinkSheet"];
-//            playerSheet.ImageName = "LinkSheet";
-            
-            SpriteSheet linkSheet = SpriteSheet.FromFile(content, "Content/sprites/LinkSheet.sprites");
-            //playerAnimation.Initialize(playerTexture, Vector2.Zero, 115, 69, 8, 30, Color.White, scale, true);
+            LoadFromFile(content, "CuboneMarowak");
+//            SpriteSheet playerSheet = SpriteSheetDictionary["LinkSheet.sprites"];
+            SpriteSheet playerSheet = SpriteSheetDictionary["CuboneMarowak.sprites"];
             Vector2 playerPosition = new Vector2(graphicsDevice.Viewport.TitleSafeArea.X + graphicsDevice.Viewport.TitleSafeArea.Width / 2,
                 graphicsDevice.Viewport.TitleSafeArea.Y + graphicsDevice.Viewport.TitleSafeArea.Height / 2);
             OverworldState.player.Initialize(playerSheet, playerPosition);
 
-            //Texture2D cuboneTexture = Content.Load<Texture2D>("Content\\Graphics\\cuboneMarowak");
             SpriteSheet cuboneSheet = SpriteSheet.FromFile(content, "Content\\sprites\\CuboneMarowak.sprites");
-            //LoadFromFile(content, "LinkSheet");
-
+            
             //background
             Game1.bgLayer1.Initialize(content, "Graphics/bgLayer1", graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height, -1);
             Game1.bgLayer2.Initialize(content, "Graphics/bgLayer2", graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height, -2);
@@ -41,10 +36,12 @@ namespace PokePlanet
         {
             string basePath = "Content/sprites/" + stemName;
             SpriteSheet sheet = SpriteSheet.FromFile(content, basePath + ".sprites");
-            SpriteSheetDictionary.Add(stemName, sheet);
+            SpriteSheetDictionary.Add(stemName + ".sprites", sheet);
             List<Animation> animations = AnimationSet.LoadAnimations(basePath + ".anim");
             foreach (Animation animation in animations)
             {
+                Console.WriteLine("Loading animation " + animation.Name);
+                animation.Texture = sheet.Texture;
                 string animPath = stemName + "/" + animation.Name;
                 AnimationDictionary.Add(animPath, animation);
                 Console.WriteLine("added " + animPath);

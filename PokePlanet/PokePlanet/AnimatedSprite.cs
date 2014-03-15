@@ -10,64 +10,46 @@ namespace PokePlanet
     {
         public Animation AnimationReference;
 
-        [XmlAttribute("loops")]
         public int Loops;
 
-        [XmlAttribute("name")]
         public String Name;
 
-        [XmlAttribute("duration")]
-        public Int32 Duration;
+        public Int32 DurationMillis;
 
-        [XmlAttribute("x")]
         public Int32 X;
 
-        [XmlAttribute("y")]
         public Int32 Y;
-
-        [XmlElement("spriterow")]
-        public List<SpriteRow> Rows;
 
         public bool Active = true;
 
 //        int currentFrame = 0;
 //        int totalFrames = 0;
-        int currentRow = 0;
-        int rowIndex = 0;
-        private int currentIndex = 0;
-        int elapsedTime = 0;
+        int _currentRow = 0;
+        int _rowIndex = 0;
+        private int _currentIndex = 0;
+        float _elapsedTimeMilliseconds = 0;
 
         public Texture2D Texture;
         public Vector2 Position;
-        Rectangle sourceRect = new Rectangle();
-        Rectangle destinationRect = new Rectangle();
+        private Rectangle _sourceRect;
+        private Rectangle _destinationRect;
         public Cell CurrentCell;
+        public SpriteCoords CurrentSpriteCoords;
 
         public int FrameWidth;
         public int FrameHeight;
-        float scale = 1f;
+        float _scale = 1f;
 
-        public void Initialize(Texture2D texture, Vector2 position, Animation animationReference)
+        public AnimatedSprite(Animation animationReference, Vector2 position)
         {
-            Texture = texture;
+            Console.WriteLine("Constructing AnimatedSprite for " + animationReference.Name);
+            Texture = animationReference.Texture;
             AnimationReference = animationReference;
-            Position = position;
-            SpriteCoords currentSprite = SpriteManager.GetSprite("LinkSheet", "UnarmedDown");
-            CurrentCell = AnimationReference.Cells[0];
-            sourceRect = new Rectangle(currentSprite.x, currentSprite.y, currentSprite.Width, currentSprite.Height);
-            FrameWidth = sourceRect.Width;
-            FrameHeight = sourceRect.Height;
-            Duration = CurrentCell.Delay;
             Loops = AnimationReference.Loops;
-        }
-        
-        public void Initialize(Texture2D Texture, Vector2 position, float scale)
-        {
-            //this.Texture = Texture;
-            this.scale = scale;
             Position = position;
-            FrameWidth = Rows[currentRow].Width;
-            FrameHeight = Rows[currentRow].Height;
+            UpdateCell();
+            UpdateSourceRect();
+            
         }
 
         public void Update(GameTime gameTime)
@@ -75,87 +57,61 @@ namespace PokePlanet
             //don't update if we're not active
             if (Active == false) return;
 
-            elapsedTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (elapsedTime > Duration)
+            _elapsedTimeMilliseconds += gameTime.ElapsedGameTime.Milliseconds;
+            if (_elapsedTimeMilliseconds > DurationMillis)
             {
                 AdvanceFrame();
                 UpdateSourceRect();
-                elapsedTime = 0;
+                _elapsedTimeMilliseconds = 0;
             }
 
-            //set source rect to grab correct chunk of sprite sheet
-            //sourceRect = new Rectangle(rowIndex * FrameWidth, 0, FrameWidth, FrameHeight);
-            UpdateDestinationRect(scale);
+            UpdateDestinationRect();
         }
 
-        private void UpdateDestinationRect(float scale)
+        private void UpdateDestinationRect()
         {
-            destinationRect = new Rectangle((int)Position.X - (int)(FrameWidth * scale) / 2,
-                (int)Position.Y - (int)(FrameHeight * scale) / 2,
-                (int)(FrameWidth * scale), (int)(FrameHeight * scale));
+            _destinationRect = new Rectangle((int)Position.X - (int)(FrameWidth * _scale) / 2,
+                (int)Position.Y - (int)(FrameHeight * _scale) / 2,
+                (int)(FrameWidth * _scale), (int)(FrameHeight * _scale));
         }
 
         private void AdvanceFrame()
         {
-            currentIndex++;
-            if (currentIndex == AnimationReference.Cells.Count)
+//            Console.WriteLine("advancin tha frame");
+            _currentIndex++;
+            if (_currentIndex == AnimationReference.Cells.Count)
             {
-                currentIndex = 0;
+                _currentIndex = 0;
                 if (Loops == 0)
                     Active = false;
             }
-            CurrentCell = AnimationReference.Cells[currentIndex];
-            rowIndex++;
-            if (rowIndex == Rows[currentRow].Count)
-            {
-                currentRow++;
-                rowIndex = 0;
-            }
-            if (currentRow == Rows.Count)
-            {
-                currentRow = 0;
-                if (Loops == 0)
-                    Active = false;
-            }
-            FrameWidth = Rows[currentRow].Width;
-            FrameHeight = Rows[currentRow].Height;
+            UpdateCell();
+        }
+
+        private void UpdateCell()
+        {
+            CurrentCell = AnimationReference.Cells[_currentIndex];
+            CurrentSpriteCoords = SpriteManager.GetSprite(AnimationReference.SpriteSheetName, CurrentCell.Sprite.Name);
+            DurationMillis = Clock.FramesToMillis(CurrentCell.Delay);
         }
 
         private void UpdateSourceRect()
         {
-            sourceRect = new Rectangle();
+            _sourceRect = new Rectangle(CurrentSpriteCoords.x, CurrentSpriteCoords.y, CurrentSpriteCoords.Width, CurrentSpriteCoords.Height);
+            FrameWidth = _sourceRect.Width;
+            FrameHeight = _sourceRect.Height;
 //            sourceRect = new Rectangle(X + Rows[currentRow].X + FrameWidth * rowIndex + Rows[currentRow].Gap * rowIndex,
-                Y + Rows[currentRow].Y, FrameWidth, FrameHeight);
+//                Y + Rows[currentRow].Y, FrameWidth, FrameHeight);
         }
 
-        public void Draw(Texture2D Texture, SpriteBatch spriteBatch, float scale)
+        public void Draw(SpriteBatch spriteBatch, float scale)
         {
+            this._scale = scale;
             if (Active)
             {
-                UpdateDestinationRect(scale);
-                spriteBatch.Draw(Texture, destinationRect, sourceRect, Color.White);
+                UpdateDestinationRect();
+                spriteBatch.Draw(Texture, _destinationRect, _sourceRect, Color.White);
             }
         }
-    }
-
-    public class SpriteRow
-    {
-        [XmlAttribute("n")]
-        public Int32 Count;
-
-        [XmlAttribute("x")]
-        public Int32 X;
-
-        [XmlAttribute("y")]
-        public Int32 Y;
-
-        [XmlAttribute("w")]
-        public Int32 Width;
-
-        [XmlAttribute("h")]
-        public Int32 Height;
-
-        [XmlAttribute("gap")]
-        public Int32 Gap=0;
     }
 }

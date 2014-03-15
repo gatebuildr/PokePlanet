@@ -1,1 +1,2 @@
 C:\Users\Matt\git\PokePlanet\PokePlanet\PokePlanetContent\obj\x86\Debug\PokePlanetContent.contentprojResolveAssemblyReference.cache
+C:\Users\Matt\Documents\Visual Studio 2010\Projects\PokePlanet\PokePlanet\PokePlanetContent\obj\x86\Debug\PokePlanetContent.contentprojResolveAssemblyReference.cache

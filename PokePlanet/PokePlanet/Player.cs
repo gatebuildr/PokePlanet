@@ -33,27 +33,32 @@ namespace PokePlanet
         {
             PlayerSheet = sheet;
             PlayerTexture = sheet.Texture;
-            SetAnimation("UnarmedDown");
+
             Position = position;
+            SetAnimation("IdleDown");
             Active = true;
             Health = 100;
         }
 
         public void SetAnimation(String name)
         {
-            CurrentAnimation = SpriteManager.GetAnimation("LinkSheet", name);
+            CurrentSprite = new AnimatedSprite(SpriteManager.GetAnimation("CuboneMarowak", name), Position);
+//            CurrentSprite = new AnimatedSprite(SpriteManager.GetAnimation("LinkSheet", "UnarmedDown"), Position);
 //            CurrentSprite = PlayerSheet.GetAnimation("UnarmedDown");
             //CurrentSprite.Initialize(PlayerTexture, Position, 1f);
         }
 
         public void Update(GameTime gameTime)
         {
+            CurrentSprite.Position = Position;
+            CurrentSprite.Update(gameTime);
 //            CurrentSprite.Position = Position;
 //            CurrentSprite.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, float scale)
         {
+            CurrentSprite.Draw(spriteBatch, scale);
 //            CurrentSprite.Draw(PlayerTexture, spriteBatch, scale);
         }
     }

@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 
+using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,6 +30,8 @@ namespace PokePlanet
         public static Rectangle _rectBackground;
         public static ParallaxingBackground bgLayer1;
         public static ParallaxingBackground bgLayer2;
+        public static float FramesElapsed = 0;
+
         public const float Scale = 4f; 
 
 

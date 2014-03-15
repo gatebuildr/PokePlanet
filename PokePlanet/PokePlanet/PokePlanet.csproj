@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Animation.cs" />
+    <Compile Include="Clock.cs" />
     <Compile Include="OldAnimation.cs" />
     <Compile Include="AnimationSet.cs" />
     <Compile Include="GameState.cs" />
@@ -123,10 +124,6 @@
     <Compile Include="SpriteSheet.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\..\..\Program Files %28x86%29\MonoGame\v3.0\Assemblies\WindowsGL\SDL.dll">
-      <Link>SDL.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
     <Content Include="Icon.ico" />

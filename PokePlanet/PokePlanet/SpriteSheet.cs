@@ -14,22 +14,29 @@ namespace PokePlanet
     public class SpriteSheet
     {
         public Texture2D Texture;
-
-        [XmlAttribute("path")] public String SheetPath;
-
-        [XmlElement("animatedsprite")] public List<AnimatedSprite> SpriteList;
-
+        
         [XmlElement("definitions")] public List<Definition> DefinitionList;
 
         [XmlAttribute("name")] public String ImageName;
+
+        [XmlAttribute("w")] public int Width;
+
+        [XmlAttribute("h")] public int Height;
 
         public static SpriteSheet FromFile(ContentManager content, string file)
         {
             using (var stream = File.OpenRead(file))
             {
                 SpriteSheet sheet = FromStream(stream);
-                if (sheet.SheetPath != null)
-                    sheet.Texture = content.Load<Texture2D>(sheet.SheetPath);
+                if (sheet.ImageName != null)
+                {
+                    Console.WriteLine("Loading texture " + sheet.ImageName);
+                    sheet.Texture = content.Load<Texture2D>("Graphics/" + sheet.ImageName.Replace(".png", ""));
+                }
+                else
+                {
+                    Console.WriteLine("no content found for " + sheet.ImageName);
+                }
                 return sheet;
             }
         }
@@ -40,29 +47,17 @@ namespace PokePlanet
             return (SpriteSheet) serializer.Deserialize(stream);
         }
 
-        public static void LoadAnimations(string path)
-        {
-            var serializer = new XmlSerializer(typeof (AnimatedSprite));
-            var stream = File.OpenRead(path);
-            AnimatedSprite animation = (AnimatedSprite) serializer.Deserialize(stream);
-        }
-
-        public AnimatedSprite GetAnimation(String name)
-        {
-            Console.WriteLine(SpriteList.Count + " elements in spritelist");
-            foreach (AnimatedSprite sprite in SpriteList)
-            {
-                //Console.WriteLine(sprite.Name);
-                if (sprite.Name.Equals(name))
-                    return sprite;
-            }
-            Console.WriteLine("couldn't find your animation, bro");
-            return null;
-        }
-
         public SpriteCoords GetSprite(string name)
         {
-            return DefinitionList[0].DirList[0].Sprites[0];
+            Console.WriteLine("fetchin sprite " + name);
+            String withNoSlash = name.Substring(1);
+            foreach (SpriteCoords sprite in DefinitionList[0].DirList[0].Sprites)
+            {
+                if (sprite.Name.Equals(withNoSlash))
+                    return sprite;
+            }
+            return null;
+//            return DefinitionList[0].DirList[0].Sprites[0];
         }
 }
 

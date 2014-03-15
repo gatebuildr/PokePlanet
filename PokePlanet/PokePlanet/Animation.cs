@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PokePlanet
 {
@@ -25,5 +26,6 @@ namespace PokePlanet
         [XmlAttribute("loops")] public int Loops;
         [XmlElement("cell")] public List<Cell> Cells;
         public string SpriteSheetName;
+        public Texture2D Texture;
     }
 }
