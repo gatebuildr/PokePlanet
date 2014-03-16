@@ -110,7 +110,8 @@
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="Clock.cs" />
-    <Compile Include="OldAnimation.cs" />
+    <Compile Include="Geometry.cs" />
+    <Compile Include="MovingAnimatedSprite.cs" />
     <Compile Include="AnimationSet.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Input.cs" />

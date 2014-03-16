@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -23,22 +21,22 @@ namespace PokePlanet
 
         public static void UpdateControlStates(Vector2 origin)
         {
-            previousGamePadState = currentGamePadState;
-            previousKeyboardState = currentKeyboardState;
-            previousMouseState = currentMouseState;
-            currentKeyboardState = Keyboard.GetState();
-            currentGamePadState = GamePad.GetState(PlayerIndex.One);
-            currentMouseState = Mouse.GetState();
+            PreviousGamePadState = CurrentGamePadState;
+            PreviousKeyboardState = CurrentKeyboardState;
+            PreviousMouseState = CurrentMouseState;
+            CurrentKeyboardState = Keyboard.GetState();
+            CurrentGamePadState = GamePad.GetState(PlayerIndex.One);
+            CurrentMouseState = Mouse.GetState();
 
             InputDirection = Vector2.Zero;
 //            InputDirection.X = 0f;
 //            InputDirection.Y = 0f;
 
             //get mouse state and capture button type and respond button press
-            MousePosition.X = currentMouseState.X;
-            MousePosition.Y = currentMouseState.Y;
+            MousePosition.X = CurrentMouseState.X;
+            MousePosition.Y = CurrentMouseState.Y;
 
-            bool leftMouseDown = currentMouseState.LeftButton == ButtonState.Pressed;
+            bool leftMouseDown = CurrentMouseState.LeftButton == ButtonState.Pressed;
             if (leftMouseDown)
             {
                 CurrentInputDirectionType = InputDirectionType.Full;
@@ -49,43 +47,39 @@ namespace PokePlanet
                 //                player.Position = player.Position + posDelta;
             }
 
-            Vector2 analogDirection = currentGamePadState.ThumbSticks.Left;
-            if (analogDirection.X != 0 || analogDirection.Y != 0)
+            Vector2 analogDirection = CurrentGamePadState.ThumbSticks.Left;
+            if (analogDirection != Vector2.Zero)
             {
                 CurrentInputDirectionType = InputDirectionType.Scaled;
                 InputDirection = analogDirection;
                 InputDirection.Y = -InputDirection.Y;
             }
 
-            //            player.Position.X += currentGamePadState.ThumbSticks.Left.X * playerMoveSpeed;
-            //            player.Position.Y -= currentGamePadState.ThumbSticks.Left.Y * playerMoveSpeed;
-
-            Keys[] arrowKeysPressed = currentKeyboardState.GetPressedKeys();
+            Keys[] arrowKeysPressed = CurrentKeyboardState.GetPressedKeys();
             Keys[] arrowKeys = { Keys.Left, Keys.Right, Keys.Up, Keys.Down };
-            bool usingArrowKeys = false;
-            foreach (var key in arrowKeys.Where(arrowKeysPressed.Contains))
-                usingArrowKeys = true;
+            var usingArrowKeys = arrowKeys.Where(arrowKeysPressed.Contains).Any();
 
-            bool dPadInUse = currentGamePadState.DPad.Down == ButtonState.Pressed || currentGamePadState.DPad.Up == ButtonState.Pressed || currentGamePadState.DPad.Left == ButtonState.Pressed || currentGamePadState.DPad.Right == ButtonState.Pressed;
+            var dPadInUse = CurrentGamePadState.DPad.Down == ButtonState.Pressed || CurrentGamePadState.DPad.Up == ButtonState.Pressed || CurrentGamePadState.DPad.Left == ButtonState.Pressed || CurrentGamePadState.DPad.Right == ButtonState.Pressed;
+            Console.WriteLine("dPadInUse: " + dPadInUse);
 
             if (usingArrowKeys || dPadInUse)
             {
                 CurrentInputDirectionType = InputDirectionType.Full;
             }
 
-            if (currentKeyboardState.IsKeyDown(Keys.Left) || currentGamePadState.DPad.Left == ButtonState.Pressed)
+            if (CurrentKeyboardState.IsKeyDown(Keys.Left) || CurrentGamePadState.DPad.Left == ButtonState.Pressed)
             {
                 InputDirection.X = -1f;
             }
-            if (currentKeyboardState.IsKeyDown(Keys.Right) || currentGamePadState.DPad.Right == ButtonState.Pressed)
+            if (CurrentKeyboardState.IsKeyDown(Keys.Right) || CurrentGamePadState.DPad.Right == ButtonState.Pressed)
             {
                 InputDirection.X = 1f;
             }
-            if (currentKeyboardState.IsKeyDown(Keys.Down) || currentGamePadState.DPad.Down == ButtonState.Pressed)
+            if (CurrentKeyboardState.IsKeyDown(Keys.Down) || CurrentGamePadState.DPad.Down == ButtonState.Pressed)
             {
                 InputDirection.Y = 1f;
             }
-            if (currentKeyboardState.IsKeyDown(Keys.Up) || currentGamePadState.DPad.Up == ButtonState.Pressed)
+            if (CurrentKeyboardState.IsKeyDown(Keys.Up) || CurrentGamePadState.DPad.Up == ButtonState.Pressed)
             {
                 InputDirection.Y = -1f;
             }
@@ -93,12 +87,12 @@ namespace PokePlanet
 
         public static InputDirectionType CurrentInputDirectionType;
         public static Vector2 MousePosition;
-        public static KeyboardState currentKeyboardState;
-        public static KeyboardState previousKeyboardState;
-        public static GamePadState currentGamePadState;
-        public static GamePadState previousGamePadState;
-        public static MouseState currentMouseState;
-        public static MouseState previousMouseState;
+        public static KeyboardState CurrentKeyboardState;
+        public static KeyboardState PreviousKeyboardState;
+        public static GamePadState CurrentGamePadState;
+        public static GamePadState PreviousGamePadState;
+        public static MouseState CurrentMouseState;
+        public static MouseState PreviousMouseState;
 
         public static bool ExitPressed()
         {
@@ -106,5 +100,27 @@ namespace PokePlanet
         }
 
         public static Vector2 InputDirection;
+
+        public static Vector2 GetMoveVector(float speed)
+        {
+            var moveVector = new Vector2(InputDirection.X, InputDirection.Y);
+
+            if (moveVector == Vector2.Zero)
+                return moveVector;
+
+            switch (CurrentInputDirectionType)
+            {
+                case InputDirectionType.Absolute:
+                    break;
+                case InputDirectionType.Full:
+                    moveVector.Normalize();
+                    moveVector *= Player.PlayerMoveSpeed;
+                    break;
+                case InputDirectionType.Scaled:
+                    moveVector *= Player.PlayerMoveSpeed;
+                    break;
+            }
+            return moveVector;
+        }
     }
 }

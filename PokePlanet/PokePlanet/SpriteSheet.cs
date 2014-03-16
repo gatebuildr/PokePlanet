@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 using System.IO;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
@@ -31,7 +29,7 @@ namespace PokePlanet
                 if (sheet.ImageName != null)
                 {
                     Console.WriteLine("Loading texture " + sheet.ImageName);
-                    sheet.Texture = content.Load<Texture2D>("Graphics/" + sheet.ImageName.Replace(".png", ""));
+                    sheet.Texture = content.Load<Texture2D>("sprites/" + sheet.ImageName.Replace(".png", ""));
                 }
                 else
                 {
@@ -43,7 +41,7 @@ namespace PokePlanet
 
         public static SpriteSheet FromStream(Stream stream)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof (SpriteSheet));
+            var serializer = new XmlSerializer(typeof (SpriteSheet));
             return (SpriteSheet) serializer.Deserialize(stream);
         }
 
@@ -51,13 +49,7 @@ namespace PokePlanet
         {
             Console.WriteLine("fetchin sprite " + name);
             String withNoSlash = name.Substring(1);
-            foreach (SpriteCoords sprite in DefinitionList[0].DirList[0].Sprites)
-            {
-                if (sprite.Name.Equals(withNoSlash))
-                    return sprite;
-            }
-            return null;
-//            return DefinitionList[0].DirList[0].Sprites[0];
+            return DefinitionList[0].DirList[0].Sprites.FirstOrDefault(sprite => sprite.Name.Equals(withNoSlash));
         }
 }
 
@@ -82,10 +74,10 @@ namespace PokePlanet
         public String Name;
 
         [XmlAttribute("x")]
-        public int x;
+        public int X;
 
         [XmlAttribute("y")]
-        public int y;
+        public int Y;
 
         [XmlAttribute("w")]
         public int Width;

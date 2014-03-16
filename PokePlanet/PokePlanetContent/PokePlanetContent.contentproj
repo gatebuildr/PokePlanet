@@ -54,22 +54,22 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\CuboneMarowak.png">
+    <Compile Include="sprites\CuboneMarowak.png">
       <Name>CuboneMarowak</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Content Include="Graphics\LinkSheet.xnb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Name>LinkSheet</Name>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="sprites\CuboneMarowak.sprites">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Name>CuboneMarowak</Name>
     </Content>
+    <Compile Include="sprites\KrabbyKingler.png">
+      <Name>KrabbyKingler</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Content Include="sprites\LinkSheet.anim">
       <Name>LinkSheet</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -89,6 +89,20 @@
   <ItemGroup>
     <Content Include="sprites\CuboneMarowak.anim">
       <Name>CuboneMarowak</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sprites\KrabbyKingler.anim">
+      <Name>KrabbyKingler</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\KrabbyKingler.sprites">
+      <Name>KrabbyKingler</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\LinkSheet.xnb">
+      <Name>LinkSheet</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -2,13 +2,22 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Graphics\CuboneMarowak.png</Source>
-      <Name>Graphics\CuboneMarowak</Name>
+      <Source>sprites\CuboneMarowak.png</Source>
+      <Name>sprites\CuboneMarowak</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Matt\Documents\Visual Studio 2010\Projects\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\Graphics\CuboneMarowak.xnb</Output>
+      <Output>C:\Users\Matt\Documents\Visual Studio 2010\Projects\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\sprites\CuboneMarowak.xnb</Output>
       <Time>2014-03-14T20:10:15.1719422-04:00</Time>
+    </Item>
+    <Item>
+      <Source>sprites\KrabbyKingler.png</Source>
+      <Name>sprites\KrabbyKingler</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Matt\Documents\Visual Studio 2010\Projects\PokePlanet\PokePlanet\PokePlanet\bin\x86\Debug\Content\sprites\KrabbyKingler.xnb</Output>
+      <Time>2014-03-14T20:10:15.1443351-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

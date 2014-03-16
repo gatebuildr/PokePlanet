@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,12 +20,8 @@ namespace PokePlanet
 
         public bool Active = true;
 
-//        int currentFrame = 0;
-//        int totalFrames = 0;
-        int _currentRow = 0;
-        int _rowIndex = 0;
-        private int _currentIndex = 0;
-        float _elapsedTimeMilliseconds = 0;
+        private int _currentIndex;
+        private float _elapsedTimeMilliseconds;
 
         public Texture2D Texture;
         public Vector2 Position;
@@ -36,20 +30,31 @@ namespace PokePlanet
         public Cell CurrentCell;
         public SpriteCoords CurrentSpriteCoords;
 
-        public int FrameWidth;
-        public int FrameHeight;
-        float _scale = 1f;
-
-        public AnimatedSprite(Animation animationReference, Vector2 position)
+        public int FrameWidth
         {
-            Console.WriteLine("Constructing AnimatedSprite for " + animationReference.Name);
-            Texture = animationReference.Texture;
-            AnimationReference = animationReference;
-            Loops = AnimationReference.Loops;
+            get { return (int) (CurrentSpriteCoords.Width * Game1.Scale); }
+        }
+
+        public int FrameHeight
+        {
+            get { return (int)(CurrentSpriteCoords.Height * Game1.Scale); }
+        }
+
+        public AnimatedSprite(string name, Vector2 position)
+        {
+            Name = name;
             Position = position;
-            UpdateCell();
-            UpdateSourceRect();
-            
+        }
+
+        public void UpdateAnimation(string animation)
+        {
+                AnimationReference = SpriteManager.GetAnimation(Name, animation);
+                Texture = AnimationReference.Texture;
+                Loops = AnimationReference.Loops;
+                UpdateCell();
+                UpdateSourceRect();
+                _currentIndex = 0;
+                _elapsedTimeMilliseconds = 0;
         }
 
         public void Update(GameTime gameTime)
@@ -70,9 +75,9 @@ namespace PokePlanet
 
         private void UpdateDestinationRect()
         {
-            _destinationRect = new Rectangle((int)Position.X - (int)(FrameWidth * _scale) / 2,
-                (int)Position.Y - (int)(FrameHeight * _scale) / 2,
-                (int)(FrameWidth * _scale), (int)(FrameHeight * _scale));
+            _destinationRect = new Rectangle((int)Position.X - FrameWidth / 2,
+                (int)Position.Y - FrameHeight / 2,
+                FrameWidth, FrameHeight);
         }
 
         private void AdvanceFrame()
@@ -97,16 +102,13 @@ namespace PokePlanet
 
         private void UpdateSourceRect()
         {
-            _sourceRect = new Rectangle(CurrentSpriteCoords.x, CurrentSpriteCoords.y, CurrentSpriteCoords.Width, CurrentSpriteCoords.Height);
-            FrameWidth = _sourceRect.Width;
-            FrameHeight = _sourceRect.Height;
+            _sourceRect = new Rectangle(CurrentSpriteCoords.X, CurrentSpriteCoords.Y, CurrentSpriteCoords.Width, CurrentSpriteCoords.Height);
 //            sourceRect = new Rectangle(X + Rows[currentRow].X + FrameWidth * rowIndex + Rows[currentRow].Gap * rowIndex,
 //                Y + Rows[currentRow].Y, FrameWidth, FrameHeight);
         }
 
         public void Draw(SpriteBatch spriteBatch, float scale)
         {
-            this._scale = scale;
             if (Active)
             {
                 UpdateDestinationRect();

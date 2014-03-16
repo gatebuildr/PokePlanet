@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PokePlanet
+﻿namespace PokePlanet
 {
-    public interface GameState
+    public interface IGameState
     {
         void Initialize();
     }

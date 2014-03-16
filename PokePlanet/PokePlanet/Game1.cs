@@ -1,7 +1,6 @@
 ﻿#region Using Statements
 
 using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,7 +10,7 @@ namespace PokePlanet
 {
     static class GameStates
     {
-         public static readonly GameState OverWorldState = new OverworldState();
+         public static readonly IGameState OverWorldState = new OverworldState();
     }
 
     /// <summary>
@@ -19,27 +18,27 @@ namespace PokePlanet
     /// </summary>
     public class Game1 : Game
     {
-        private GameState _currentGameState;
+        private IGameState _currentGameState;
 
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        SpriteBatch _spriteBatch;
         //input states
 
         //background
-        public static Texture2D _mainBackground;
-        public static Rectangle _rectBackground;
-        public static ParallaxingBackground bgLayer1;
-        public static ParallaxingBackground bgLayer2;
+        public static Texture2D MainBackground;
+        public static Rectangle RectBackground;
+        public static ParallaxingBackground BgLayer1;
+        public static ParallaxingBackground BgLayer2;
         public static float FramesElapsed = 0;
 
+        // We actually need this to be assigned in the constructor or XNA derps out and doesn't load
+        // ReSharper disable once NotAccessedField.Local
+        private GraphicsDeviceManager _graphics;
         public const float Scale = 4f; 
 
 
         public Game1()
-            : base()
         {
-            
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -52,15 +51,15 @@ namespace PokePlanet
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            
             Input.Initialize();
 
             _currentGameState = GameStates.OverWorldState;
             _currentGameState.Initialize();
 
             //background
-            bgLayer1 = new ParallaxingBackground();
-            bgLayer2 = new ParallaxingBackground();
+            BgLayer1 = new ParallaxingBackground();
+            BgLayer2 = new ParallaxingBackground();
            
 
             base.Initialize();
@@ -73,10 +72,10 @@ namespace PokePlanet
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
+            Console.WriteLine("Game1.LoadContent");
             SpriteManager.LoadContent(Content, GraphicsDevice);
         }
 
@@ -101,44 +100,49 @@ namespace PokePlanet
 
             // TODO: Add your update logic here
             //save previous input states so we can pick out single presses
-            Input.UpdateControlStates(OverworldState.player.Position);
+            Input.UpdateControlStates(OverworldState.Player.Position);
             UpdatePlayer(gameTime);
             UpdatePlayerPosition();
 
-            bgLayer1.Update(gameTime);
-            bgLayer2.Update(gameTime);
+            BgLayer1.Update(gameTime);
+            BgLayer2.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         private void UpdatePlayer(GameTime gameTime)
         {
-            OverworldState.player.Update(gameTime);
+            OverworldState.Player.Update(gameTime);
         }
 
         void UpdatePlayerPosition()
         {
+            Vector2 moveVector = Input.GetMoveVector(Player.PlayerMoveSpeed);
+            OverworldState.Player.Move(moveVector);
+
             if (Input.InputDirection == Vector2.Zero)
                 return;
 
             switch (Input.CurrentInputDirectionType)
             {
                     case Input.InputDirectionType.Absolute:
-                    OverworldState.player.Position += Input.InputDirection;
+                    OverworldState.Player.Position += Input.InputDirection;
                     break;
                     case Input.InputDirectionType.Full:
                     Input.InputDirection.Normalize();
-                    OverworldState.player.Position += Input.InputDirection*Player.PlayerMoveSpeed;
+                    OverworldState.Player.Position += Input.InputDirection*Player.PlayerMoveSpeed;
                     break;
                     case Input.InputDirectionType.Scaled:
-                    OverworldState.player.Position += Input.InputDirection*Player.PlayerMoveSpeed;
+                    OverworldState.Player.Position += Input.InputDirection*Player.PlayerMoveSpeed;
                     break;
             }
 
             //make sure player stays in bounds
 
-            OverworldState.player.Position.X = MathHelper.Clamp(OverworldState.player.Position.X, 0, GraphicsDevice.Viewport.Width - OverworldState.player.Width);
-            OverworldState.player.Position.Y = MathHelper.Clamp(OverworldState.player.Position.Y, 0, GraphicsDevice.Viewport.Height - OverworldState.player.Height);
+// ReSharper disable once PossibleLossOfFraction
+            OverworldState.Player.Position.X = MathHelper.Clamp(OverworldState.Player.Position.X, OverworldState.Player.Width/2, GraphicsDevice.Viewport.Width - OverworldState.Player.Width/2);
+// ReSharper disable once PossibleLossOfFraction
+            OverworldState.Player.Position.Y = MathHelper.Clamp(OverworldState.Player.Position.Y, OverworldState.Player.Height/2, GraphicsDevice.Viewport.Height - OverworldState.Player.Height/2);
         }
 
         /// <summary>
@@ -152,17 +156,17 @@ namespace PokePlanet
             // TODO: Add your drawing code here
 
             //start drawing
-            spriteBatch.Begin();
+            _spriteBatch.Begin();
 
             //draw the background
-            spriteBatch.Draw(_mainBackground, _rectBackground, Color.White);
-            bgLayer1.Draw(spriteBatch);
-            bgLayer2.Draw(spriteBatch);
+            _spriteBatch.Draw(MainBackground, RectBackground, Color.White);
+            BgLayer1.Draw(_spriteBatch);
+            BgLayer2.Draw(_spriteBatch);
 
             //draw the player
-            OverworldState.player.Draw(spriteBatch, Scale);
+            OverworldState.Player.Draw(_spriteBatch, Scale);
             //stop drawing
-            spriteBatch.End();
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

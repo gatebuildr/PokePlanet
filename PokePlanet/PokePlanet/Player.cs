@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 
 namespace PokePlanet
 {
     public class Player
     {
         public SpriteSheet PlayerSheet;
-        public AnimatedSprite CurrentSprite;
+        public MovingAnimatedSprite CurrentSprite;
         public Animation CurrentAnimation;
         public const float PlayerMoveSpeed = 8.0f;
-        //public OldAnimation PlayerAnimation;
+        public Geometry.Direction CurrentDirection;
         public Texture2D PlayerTexture;
         public Vector2 Position;
-        public bool Active;
-        public int Health;
         public int Width
         {
             get { return CurrentSprite.FrameWidth; }
@@ -33,33 +27,34 @@ namespace PokePlanet
         {
             PlayerSheet = sheet;
             PlayerTexture = sheet.Texture;
-
             Position = position;
-            SetAnimation("IdleDown");
-            Active = true;
-            Health = 100;
+            CurrentDirection = Geometry.Direction.Down;
+            Console.WriteLine("setting currentsprite");
+            CurrentSprite = new MovingAnimatedSprite("CuboneMarowak", Position, CurrentDirection);
+            SetAnimation("Asleep");
         }
 
         public void SetAnimation(String name)
         {
-            CurrentSprite = new AnimatedSprite(SpriteManager.GetAnimation("CuboneMarowak", name), Position);
-//            CurrentSprite = new AnimatedSprite(SpriteManager.GetAnimation("LinkSheet", "UnarmedDown"), Position);
-//            CurrentSprite = PlayerSheet.GetAnimation("UnarmedDown");
-            //CurrentSprite.Initialize(PlayerTexture, Position, 1f);
+            CurrentSprite.UpdateAnimation(name);
         }
 
         public void Update(GameTime gameTime)
         {
             CurrentSprite.Position = Position;
             CurrentSprite.Update(gameTime);
-//            CurrentSprite.Position = Position;
-//            CurrentSprite.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, float scale)
         {
             CurrentSprite.Draw(spriteBatch, scale);
-//            CurrentSprite.Draw(PlayerTexture, spriteBatch, scale);
+        }
+
+        public void Move(Vector2 moveVector)
+        {
+            CurrentDirection = Geometry.VectorToQuarterDirection(moveVector);
+            CurrentSprite.UpdateDirection(CurrentDirection);
+            Position += moveVector;
         }
     }
 }

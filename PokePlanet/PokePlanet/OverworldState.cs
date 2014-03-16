@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace PokePlanet
+﻿namespace PokePlanet
 {
-    class OverworldState : GameState
+    class OverworldState : IGameState
     {
-        public static Player player;
+        public static Player Player;
 
         
 
         public void Initialize()
         {
             //player and movement
-            player = new Player();
+            Player = new Player();
             
         }
     }

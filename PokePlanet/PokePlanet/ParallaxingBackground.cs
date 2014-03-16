@@ -7,53 +7,53 @@ namespace PokePlanet
 {
     public class ParallaxingBackground
     {
-        Texture2D texture;
-        Vector2[] positions;
-        int speed;
-        int bgHeight;
-        int bgWidth;
+        Texture2D _texture;
+        Vector2[] _positions;
+        int _speed;
+        int _bgHeight;
+        int _bgWidth;
 
         public void Initialize(ContentManager content, String texturePath, int screenWidth, int screenHeight, int speed)
         {
-            bgHeight = screenHeight;
-            bgWidth = screenWidth;
+            _bgHeight = screenHeight;
+            _bgWidth = screenWidth;
 
-            texture = content.Load<Texture2D>(texturePath);
-            this.speed = speed;
-            positions = new Vector2[screenWidth / texture.Width + 1];
-            for (int i = 0; i < positions.Length; i++)
+            _texture = content.Load<Texture2D>(texturePath);
+            _speed = speed;
+            _positions = new Vector2[screenWidth / _texture.Width + 1];
+            for (int i = 0; i < _positions.Length; i++)
             {
-                positions[i] = new Vector2(i * texture.Width, 0);
+                _positions[i] = new Vector2(i * _texture.Width, 0);
             }
         }
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < positions.Length; i++)
+            for (int i = 0; i < _positions.Length; i++)
             {
-                positions[i].X += speed;
+                _positions[i].X += _speed;
                 //move background based on forward or backward speed
-                if (speed <= 0)
+                if (_speed <= 0)
                 {
-                    if (positions[i].X <= -texture.Width)
+                    if (_positions[i].X <= -_texture.Width)
                     {
-                        positions[i].X = texture.Width * (positions.Length - 1);
+                        _positions[i].X = _texture.Width * (_positions.Length - 1);
                     }
                 }
                 else
                 {
-                    if (positions[i].X >= texture.Width * (positions.Length - 1))
+                    if (_positions[i].X >= _texture.Width * (_positions.Length - 1))
                     {
-                        positions[i].X = -texture.Width;
+                        _positions[i].X = -_texture.Width;
                     }
                 }
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < positions.Length; i++)
+            for (int i = 0; i < _positions.Length; i++)
             {
-                Rectangle rectBg = new Rectangle((int)positions[i].X, (int)positions[i].Y, bgWidth, bgHeight);
-                spriteBatch.Draw(texture, rectBg, Color.White);
+                var rectBg = new Rectangle((int)_positions[i].X, (int)_positions[i].Y, _bgWidth, _bgHeight);
+                spriteBatch.Draw(_texture, rectBg, Color.White);
             }
         }
 

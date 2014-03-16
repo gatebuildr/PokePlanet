@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 
@@ -19,7 +17,7 @@ namespace PokePlanet
             var serializer = new XmlSerializer(typeof(AnimationSet));
             var stream = File.OpenRead(path);
             Console.WriteLine("Loading animations: " + path);
-            AnimationSet animationSet = (AnimationSet)serializer.Deserialize(stream);
+            var animationSet = (AnimationSet)serializer.Deserialize(stream);
             List<Animation> animations = animationSet.Animations;
             foreach(Animation animation in animations)
             {

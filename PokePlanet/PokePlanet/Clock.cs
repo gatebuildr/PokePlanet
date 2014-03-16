@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PokePlanet
+﻿namespace PokePlanet
 {
     class Clock
     {
+        // ReSharper disable once InconsistentNaming
         public const int TargetFPS = 60;
         public static int FramesToMillis(int frames)
         {
